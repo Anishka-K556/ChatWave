@@ -8,5 +8,5 @@
 # Tech Stack
 
 # Demo
-
+![Demo](assets/demo.gif)
 # Authors
