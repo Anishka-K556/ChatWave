@@ -1,6 +1,7 @@
 # ChatWave
 
-ChatWave is a real-time chatting application built using Java, JavaFX, and HTML/CSS for the UI. It allows users to communicate seamlessly by sending text messages and images, either in one-to-one chats or through group conversations. The application is backed by a MySQL database for secure and efficient storage of user data, messages, and group information.
+ChatWave is a real-time chatting application built using Java, JavaFX, and HTML/CSS for the UI. 
+It allows users to communicate seamlessly by sending text messages and images, either in one-to-one chats or through group conversations. The application is backed by a MySQL database for secure and efficient storage of user data, messages, and group information.
 
 # Features
 User Authentication – Secure login with credentials
