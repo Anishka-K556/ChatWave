@@ -219,3 +219,12 @@ Here is a quick look into some of ChatWave's prominent features!
 K Anishka , *SSN College of Engineering , Tamil nadu , India*
 
 Anne Jacika J , *SSN College of Engineering , Tamil nadu , India*
+
+Anushya V , *SSN College of Engineering , Tamil nadu , India*
+
+# License
+
+© 2025 K Anishka, Anne Jacika J, Anushya V. All rights reserved.
+
+This project is proprietary and may not be copied, modified, or distributed without permission.
+
