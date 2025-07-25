@@ -98,100 +98,93 @@ MySQL Integration – Stores messages, user data, and group metadata
 
   - An IDE like IntelliJ IDEA / Eclipse / VSCode (recommended)
 
-## Database Setup
-1. Create the Database
-  Open your MySQL client and run:
+## Setup
+To run this project locally on your machine, follow these steps:
 
-        CREATE DATABASE mydemo;
-   
-        USE mydemo;
-   
-2. Create Tables
-  Run the following SQL commands to create the necessary tables:
+ **Download the Project Folder**: Obtain the project folder from the project source.
+ 
+ **Open with any IDE**: Launch IDE, then open the downloaded project.
+ 
+ **Set Up the MySQL Database**:
+   - Ensure you have MySQL installed.
+   - Create a database named `mydemo` and set up the necessary tables using the commands below:
 
-        CREATE TABLE users (
-   
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   
-        username VARCHAR(50) NOT NULL UNIQUE,
-   
-        password VARCHAR(255) NOT NULL,
-   
-        email VARCHAR(255)
-        );
+``` sql
+     -- Create the database
+     CREATE DATABASE mydemo;
+     USE mydemo;
 
-        CREATE TABLE contactlist (
-   
-        contact_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   
-        id INT,
-   
-        name VARCHAR(100),
-   
-        user_id INT
-        );
+     -- Create the Users table
+     CREATE TABLE Users (
+         id INT PRIMARY KEY AUTO_INCREMENT,
+         username VARCHAR(255) NOT NULL,
+         password VARCHAR(255) NOT NULL,
+         email VARCHAR(255) NOT NULL
+     );
 
-        CREATE TABLE contacts (
-   
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   
-        sender_id INT NOT NULL,
-   
-        receiver_id INT NOT NULL,
-   
-        message VARCHAR(255) NOT NULL,
-   
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-   
-        status VARCHAR(20) DEFAULT 'sent',
-   
-        deleted_by_sender TINYINT(1) DEFAULT 0,
-   
-        deleted_by_receiver TINYINT(1) DEFAULT 0,
-   
-        image_path VARCHAR(255)
-        );
+     -- Create the User_Groups table
+     CREATE TABLE User_Groups (
+         group_id INT PRIMARY KEY AUTO_INCREMENT,
+         group_name VARCHAR(255) NOT NULL,
+         group_members TEXT NOT NULL
+     );
 
-        CREATE TABLE group_messages (
-   
-        message_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   
-        group_id INT NOT NULL,
-   
-        user_id INT NOT NULL,
-   
-        message TEXT NOT NULL,
-   
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        );
+     -- Create the Contacts table
+     CREATE TABLE Contacts (
+         id INT PRIMARY KEY AUTO_INCREMENT,
+         sender_id INT,
+         receiver_id INT,
+         message VARCHAR(255) NOT NULL,
+         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+         status VARCHAR(20) DEFAULT 'sent',
+         deleted_by_sender TINYINT(1) DEFAULT 0,
+         deleted_by_receiver TINYINT(1) DEFAULT 0,
+         image_path VARCHAR(255),
+         file_path VARCHAR(255),
+         FOREIGN KEY (sender_id) REFERENCES Users(id),
+         FOREIGN KEY (receiver_id) REFERENCES Users(id)
+     );
 
-        CREATE TABLE user_groups (
-   
-        group_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   
-        group_name VARCHAR(255) NOT NULL,
-   
-        group_members TEXT NOT NULL
-       );
+     -- Create the ContactList table
+     CREATE TABLE ContactList (
+         id INT,
+         name VARCHAR(100),
+         user_id INT,
+         FOREIGN KEY (user_id) REFERENCES Users(id)
+     );
 
-        CREATE TABLE blocked_users (
-   
-        blocker_id INT NOT NULL,
-   
-        blocked_id INT NOT NULL,
-   
-        PRIMARY KEY (blocker_id, blocked_id)
-        );
+     -- Create the Group_Messages table
+     CREATE TABLE Group_Messages (
+         message_id INT PRIMARY KEY AUTO_INCREMENT,
+         group_id INT,
+         user_id INT,
+         message TEXT NOT NULL,
+         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+         FOREIGN KEY (group_id) REFERENCES User_Groups(group_id),
+         FOREIGN KEY (user_id) REFERENCES Users(id)
+     );
 
-5. Update your database connection credentials
+     -- Create the Blocked_Users table
+     CREATE TABLE Blocked_Users (
+         blocker_id INT NOT NULL,
+         blocked_id INT NOT NULL,
+         PRIMARY KEY (blocker_id, blocked_id),
+         FOREIGN KEY (blocker_id) REFERENCES Users(id),
+         FOREIGN KEY (blocked_id) REFERENCES Users(id)
+     );
+ ```
 
-        String url = "jdbc:mysql://localhost:3306/mydemo";
-   
-        String user = "your_mysql_username";
-   
-        String password = "your_mysql_password";
 
-6. Compile and Run the Project
+- In the code, set your MySQL password in the database connection configuration.Update it as follows:
+
+     ```java
+     String url = "jdbc:mysql://localhost:3306/mydemo";
+     String username = "your_mysql_username";
+     String password = "your_mysql_password"; // Replace with your MySQL password
+     ```
+
+
+Compile and Run the Project
    
   Start the Server
 
@@ -204,7 +197,20 @@ Make sure the server is running before starting clients.
   
         javac Main.java
         java Main
-  
+
+# How to Use the Application
+
+1. **Log In or Sign In**: Enter a username and password to log in. New users can sign in by clicking on the "Signin" button.
+2. **Start a Chat**:
+   - After logging in, select an user from your contacts to start a chat.
+   - You can add contacts from the database using "Add contact" button.
+   - You can create groups with your contacts and chat in groups.
+   - Type your message in the chat input box and press "Send" to message the selected user.
+   - Send images by clicking "Upload Image" button.
+   - You can block and unblock users,delete messages for everyone and yourself.
+3. **Multiple Sessions**: You can open multiple instances of the application to simulate different users.
+4. **End the Chat**: Close the chat window or log out to end your session.
+
 # Demo
 Here is a quick look into some of ChatWave's prominent features!
 
