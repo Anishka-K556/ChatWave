@@ -1,6 +1,5 @@
 # ChatWave
 
-# Description
 ChatWave is a real-time chatting application built using Java, JavaFX, and HTML/CSS for the UI. It allows users to communicate seamlessly by sending text messages and images, either in one-to-one chats or through group conversations. The application is backed by a MySQL database for secure and efficient storage of user data, messages, and group information.
 
 # Features
@@ -30,6 +29,7 @@ MySQL Integration – Stores messages, user data, and group metadata
 
 # Project Scope
 1.  Functional Scope
+   
 - Client-Side Features
   - User Authentication: Secure login system using username and password, with appropriate error handling.
   - Private Chat: One-to-one messaging with contacts.
@@ -73,11 +73,138 @@ MySQL Integration – Stores messages, user data, and group metadata
   - UI Styling: JavaFX with integrated HTML and CSS for a polished frontend appearance
 
 
-
 # Tech Stack
 
+  - Programming Language	:  Java (JDK 8 or above)
+
+  - User Interface  :	JavaFX + HTML/CSS
+
+  - Networking  :	Java Socket Programming (TCP/IP)
+
+  - Database  :	MySQL
+
+  - Multithreading  :	Java Thread
+
+    
 # Installation
 
+## Prerequisites
+   
+  - Java Development Kit (JDK) – Version 8 or above
+
+  - MySQL Server – Running locally or on your server
+
+  - JavaFX SDK – Add to your classpath (if not using JDK with JavaFX bundled)
+
+  - An IDE like IntelliJ IDEA / Eclipse / VSCode (recommended)
+
+## Database Setup
+1. Create the Database
+  Open your MySQL client and run:
+
+        CREATE DATABASE mydemo;
+   
+        USE mydemo;
+   
+2. Create Tables
+  Run the following SQL commands to create the necessary tables:
+
+        CREATE TABLE users (
+   
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   
+        username VARCHAR(50) NOT NULL UNIQUE,
+   
+        password VARCHAR(255) NOT NULL,
+   
+        email VARCHAR(255)
+        );
+
+        CREATE TABLE contactlist (
+   
+        contact_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   
+        id INT,
+   
+        name VARCHAR(100),
+   
+        user_id INT
+        );
+
+        CREATE TABLE contacts (
+   
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   
+        sender_id INT NOT NULL,
+   
+        receiver_id INT NOT NULL,
+   
+        message VARCHAR(255) NOT NULL,
+   
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+   
+        status VARCHAR(20) DEFAULT 'sent',
+   
+        deleted_by_sender TINYINT(1) DEFAULT 0,
+   
+        deleted_by_receiver TINYINT(1) DEFAULT 0,
+   
+        image_path VARCHAR(255)
+        );
+
+        CREATE TABLE group_messages (
+   
+        message_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   
+        group_id INT NOT NULL,
+   
+        user_id INT NOT NULL,
+   
+        message TEXT NOT NULL,
+   
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE user_groups (
+   
+        group_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   
+        group_name VARCHAR(255) NOT NULL,
+   
+        group_members TEXT NOT NULL
+       );
+
+        CREATE TABLE blocked_users (
+   
+        blocker_id INT NOT NULL,
+   
+        blocked_id INT NOT NULL,
+   
+        PRIMARY KEY (blocker_id, blocked_id)
+        );
+
+5. Update your database connection credentials
+
+        String url = "jdbc:mysql://localhost:3306/mydemo";
+   
+        String user = "your_mysql_username";
+   
+        String password = "your_mysql_password";
+
+6. Compile and Run the Project
+   
+  Start the Server
+
+        javac Server.java
+        java Server
+   
+Make sure the server is running before starting clients.
+
+  Start the Client
+  
+        javac Main.java
+        java Main
+  
 # Demo
 Here is a quick look into some of ChatWave's prominent features!
 
